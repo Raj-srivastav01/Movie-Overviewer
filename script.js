@@ -11,14 +11,15 @@ const headers = {
   'x-rapidapi-key': '1b15071517msh7d353762c14d673p1f6f4fjsn4d6dc1e15cac'
 };
 
-// Get initial movies
-getMovies(API_URL);
-
 async function getMovies(url) {
-    const res = await fetch(url, { headers });
-    const data = await res.json();
-
-    showMovies(data.results);
+    try {
+        const res = await fetch(url, { headers });
+        const data = await res.json();
+        console.log(data); // Debug the data response
+        showMovies(data.results);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
 }
 
 function showMovies(movies) {
