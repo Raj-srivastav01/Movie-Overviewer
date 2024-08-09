@@ -1,28 +1,24 @@
-const API_URL = 'https://moviedatabase8.p.rapidapi.com/Search/'; // Update if needed
-const API_KEY = '1b15071517msh7d353762c14d673p1f6f4fjsn4d6dc1e15cac';
-const SEARCH_API = 'https://moviedatabase8.p.rapidapi.com/Search'; // Update if needed
-const IMG_PATH = 'https://image.tmdb.org/t/p/original/'; // Image base URL from TMDb
+const API_URL = 'https://moviedatabase8.p.rapidapi.com/Discover';
+const SEARCH_API = 'https://moviedatabase8.p.rapidapi.com/Search/';
+const IMG_PATH = 'https://image.tmdb.org/t/p/original';
 
 const main = document.getElementById('main');
 const form = document.getElementById('form');
 const search = document.getElementById('search');
 
+const headers = {
+  'x-rapidapi-host': 'moviedatabase8.p.rapidapi.com',
+  'x-rapidapi-key': '1b15071517msh7d353762c14d673p1f6f4fjsn4d6dc1e15cac'
+};
+
 // Get initial movies
 getMovies(API_URL);
 
 async function getMovies(url) {
-    try {
-        const response = await fetch(url, {
-            headers: {
-                'X-RapidAPI-Host': 'moviedatabase8.p.rapidapi.com',
-                'X-RapidAPI-Key': API_KEY
-            }
-        });
-        const data = await response.json();
-        showMovies(data.results); // Adjust based on API response
-    } catch (error) {
-        console.error('Error fetching movies:', error);
-    }
+    const res = await fetch(url, { headers });
+    const data = await res.json();
+
+    showMovies(data.results);
 }
 
 function showMovies(movies) {
@@ -65,7 +61,7 @@ form.addEventListener('submit', (e) => {
     const searchTerm = search.value;
 
     if (searchTerm && searchTerm !== '') {
-        getMovies(`${SEARCH_API}?query=${encodeURIComponent(searchTerm)}`);
+        getMovies(SEARCH_API + searchTerm);
 
         search.value = '';
     } else {
