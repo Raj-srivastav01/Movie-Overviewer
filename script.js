@@ -5,6 +5,10 @@ const IMG_PATH = 'https://image.tmdb.org/t/p/original';
 const main = document.getElementById('main');
 const form = document.getElementById('form');
 const search = document.getElementById('search');
+const errorContainer = document.createElement('div'); // Container for error messages
+
+// Add error container to the body
+document.body.insertBefore(errorContainer, main);
 
 const headers = {
   'x-rapidapi-host': 'moviedatabase8.p.rapidapi.com',
@@ -14,11 +18,17 @@ const headers = {
 async function getMovies(url) {
     try {
         const res = await fetch(url, { headers });
+        if (!res.ok) { // Check if response status is not OK
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
         const data = await res.json();
-        console.log(data); // Debug the data response
+        if (!data.results) { // Check if results exist in the data
+            throw new Error('No results found.');
+        }
         showMovies(data.results);
+        clearError();
     } catch (error) {
-        console.error('Error fetching data:', error);
+        showError(error.message);
     }
 }
 
@@ -56,16 +66,24 @@ function getClassByRate(vote) {
     }
 }
 
+function showError(message) {
+    errorContainer.innerHTML = `<p>Error: ${message}</p>`;
+    errorContainer.style.color = 'red';
+}
+
+function clearError() {
+    errorContainer.innerHTML = '';
+}
+
 form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const searchTerm = search.value;
+    const searchTerm = search.value.trim();
 
-    if (searchTerm && searchTerm !== '') {
+    if (searchTerm) {
         getMovies(SEARCH_API + searchTerm);
-
         search.value = '';
     } else {
-        window.location.reload();
+        showError('Please enter a search term.');
     }
 });
