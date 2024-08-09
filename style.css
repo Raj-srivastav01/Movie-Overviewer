@@ -13,6 +13,7 @@ body {
   background-color: var(--primary-color);
   font-family: 'Poppins', sans-serif;
   margin: 0;
+  color: #fff; /* Ensure text color contrasts well with the background */
 }
 
 header {
@@ -45,6 +46,7 @@ main {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  padding: 1rem; /* Add padding to the main content for spacing */
 }
 
 .movie {
@@ -59,6 +61,7 @@ main {
 
 .movie img {
   width: 100%;
+  display: block; /* Ensure images are block-level to remove unwanted spacing */
 }
 
 .movie-info {
@@ -66,13 +69,13 @@ main {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap:0.2rem;
+  gap: 0.2rem;
   padding: 0.5rem 1rem 1rem;
   letter-spacing: 0.5px;
 }
 
 .movie-info h3 {
-  margin-top: 0;
+  margin: 0; /* Remove margin to ensure alignment consistency */
 }
 
 .movie-info span {
@@ -96,6 +99,7 @@ main {
 
 .overview {
   background-color: #fff;
+  color: #000; /* Ensure text color contrasts with background */
   padding: 2rem;
   position: absolute;
   left: 0;
@@ -109,4 +113,12 @@ main {
 
 .movie:hover .overview {
   transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .movie {
+    width: 100%;
+    max-width: 500px; /* Adjust maximum width for better responsiveness */
+  }
 }
