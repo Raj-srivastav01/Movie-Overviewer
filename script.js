@@ -1,6 +1,6 @@
-const API_URL = 'https://moviedatabase8.p.rapidapi.com/Discover';
-const SEARCH_API = 'https://moviedatabase8.p.rapidapi.com/Search/';
-const IMG_PATH = 'https://image.tmdb.org/t/p/original';
+const API_URL = 'https://moviedatabase8.p.rapidapi.com/Discover'; // Base URL for discovery
+const SEARCH_API = 'https://moviedatabase8.p.rapidapi.com/Search'; // Base URL for search
+const IMG_PATH = 'https://image.tmdb.org/t/p/original'; // Example image path
 
 const main = document.getElementById('main');
 const form = document.getElementById('form');
@@ -34,6 +34,11 @@ async function getMovies(url) {
 
 function showMovies(movies) {
     main.innerHTML = '';
+
+    if (!movies || movies.length === 0) {
+        showError('No movies found.');
+        return;
+    }
 
     movies.forEach((movie) => {
         const { title, poster_path, vote_average, overview } = movie;
@@ -81,7 +86,7 @@ form.addEventListener('submit', (e) => {
     const searchTerm = search.value.trim();
 
     if (searchTerm) {
-        getMovies(SEARCH_API + searchTerm);
+        getMovies(`${SEARCH_API}?query=${searchTerm}`);
         search.value = '';
     } else {
         showError('Please enter a search term.');
